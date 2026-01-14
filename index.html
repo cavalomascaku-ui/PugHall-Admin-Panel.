@@ -5,6 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>PugHall | Admin Dashboard</title>
 
+<!-- PWA -->
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#e74c3c">
+
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
 <script src="https://unpkg.com/lucide@latest"></script>
 
@@ -32,86 +36,134 @@ body{
     font-family:Inter,sans-serif;
     background:var(--bg);
     color:#fff;
-    min-height: 100vh;
-    position: relative;
+    min-height:100vh;
 }
 
-body::before {
-    content: "";
-    position: fixed;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background-image: url('https://i.imgur.com/rM43tnX.jpeg');
-    background-size: cover; background-position: center;
-    opacity: 0.15; z-index: -1; pointer-events: none;
+body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    background:url('https://i.imgur.com/rM43tnX.jpeg') center/cover;
+    opacity:.15;
+    z-index:-1;
 }
 
 header{
-    display:flex; justify-content:space-between; align-items:center;
-    padding:15px 30px; background:rgba(26, 21, 18, 0.95);
-    backdrop-filter: blur(15px); border-bottom:3px solid var(--red);
-    position:sticky; top:0; z-index:100;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:15px 30px;
+    background:rgba(26,21,18,.95);
+    backdrop-filter:blur(15px);
+    border-bottom:3px solid var(--red);
+    position:sticky;
+    top:0;
+    z-index:100;
 }
 
 .logo{
-    font-family: var(--font-title); font-weight:700; font-size:1.8rem;
-    color:var(--red); display: flex; align-items: center; gap: 8px;
+    font-family:var(--font-title);
+    font-size:1.8rem;
+    font-weight:700;
+    color:var(--red);
+    display:flex;
+    gap:8px;
+    align-items:center;
 }
-.logo span { color: #fff; }
+.logo span{color:#fff}
 
-.main{padding:40px;max-width:1400px;margin:auto;}
-.section-title{font-family:var(--font-title);font-size:1.5rem;margin-bottom:20px;display:flex;align-items:center;gap:10px;color:var(--pug-tan)}
+.main{padding:40px;max-width:1400px;margin:auto}
+.section-title{
+    font-family:var(--font-title);
+    font-size:1.5rem;
+    margin-bottom:20px;
+    display:flex;
+    gap:10px;
+    color:var(--pug-tan);
+}
 
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:25px;}
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
+    gap:25px;
+}
 
 .card{
-    background:var(--card); border-radius:20px; overflow:hidden;
-    border:2px solid var(--border); transition:.3s;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2); display: flex; flex-direction: column;
+    background:var(--card);
+    border-radius:20px;
+    overflow:hidden;
+    border:2px solid var(--border);
+    transition:.3s;
+    display:flex;
+    flex-direction:column;
 }
-.card:hover{transform:translateY(-5px); border-color:var(--accent);}
+.card:hover{transform:translateY(-5px);border-color:var(--accent)}
 
-.card-media img {width:100%;height:180px;object-fit:cover;}
+.card-media img{width:100%;height:180px;object-fit:cover}
 
-.card-body{padding:15px; flex: 1; display: flex; flex-direction: column; gap: 8px;}
-.card-title{font-weight:900;text-transform:uppercase; font-size: 1.1rem;}
-.card-meta{font-size:12px;opacity:.7; display:flex; gap:10px; align-items:center; color: var(--pug-tan);}
-
-.tech-info {
-    background: rgba(0,0,0,0.3); padding: 8px; border-radius: 8px;
-    font-family: monospace; font-size: 11px; color: #888; margin-top: auto;
-}
-
-.admin-actions {
-    display: grid; grid-template-columns: 1fr 1fr; gap: 10px;
-    padding: 15px; background: rgba(0,0,0,0.2); border-top: 1px solid var(--border);
+.card-body{
+    padding:15px;
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+    flex:1;
 }
 
-.btn {
-    border: none; padding: 12px; border-radius: 8px; font-weight: 800;
-    cursor: pointer; display: flex; align-items: center; justify-content: center;
-    gap: 8px; transition: 0.2s; color: #fff;
+.card-title{font-weight:900;text-transform:uppercase}
+.card-meta{font-size:12px;opacity:.7;color:var(--pug-tan);display:flex;gap:8px}
+
+.admin-actions{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:10px;
+    padding:15px;
+    background:rgba(0,0,0,.2);
 }
-.btn:hover { transform: scale(1.05); }
-.btn-approve { background: var(--green); color: #000; }
-.btn-reject { background: var(--red); }
-.btn-preview { background: #333; width: 100%; margin-top: 10px; }
 
-.player{position:fixed;inset:0;background:#050403;display:none;flex-direction:column;z-index:2000;}
-.player-header{padding:10px 20px;background:#111;border-bottom:1px solid #333;display:flex;justify-content:space-between;align-items:center;}
-iframe{width:100%;flex:1;border:none;background:#000;}
+.btn{
+    border:none;
+    padding:12px;
+    border-radius:8px;
+    font-weight:800;
+    cursor:pointer;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:8px;
+    color:#fff;
+}
+.btn:hover{transform:scale(1.05)}
+.btn-approve{background:var(--green);color:#000}
+.btn-reject{background:var(--red)}
+.btn-preview{background:#333}
 
-.empty-state { grid-column: 1/-1; text-align: center; padding: 50px; opacity: 0.5; }
+.player{
+    position:fixed;
+    inset:0;
+    background:#050403;
+    display:none;
+    flex-direction:column;
+    z-index:2000;
+}
+.player-header{
+    padding:10px 20px;
+    background:#111;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+iframe{width:100%;flex:1;border:none}
+.empty-state{text-align:center;padding:50px;opacity:.5}
 </style>
 </head>
+
 <body>
 
 <header>
     <div class="logo"><i data-lucide="shield-alert"></i> PUG<span>ADMIN</span></div>
-    <div style="display:flex; gap:10px">
-        <button class="btn" id="btn-notify" style="background:#333" onclick="enableNotifications()">
-            <i data-lucide="bell"></i> ATIVAR NOTIFICAÇÕES
-        </button>
-    </div>
+    <button class="btn" id="btn-notify" style="background:#333" onclick="enableNotifications()">
+        <i data-lucide="bell"></i> ATIVAR NOTIFICAÇÕES
+    </button>
 </header>
 
 <div class="main">
@@ -123,140 +175,112 @@ iframe{width:100%;flex:1;border:none;background:#000;}
 
 <div class="player" id="player">
     <div class="player-header">
-        <span id="gameTitle" style="font-weight:bold; color:#fff">TESTANDO...</span>
+        <span id="gameTitle">TESTANDO...</span>
         <button class="btn btn-reject" onclick="closeGame()">FECHAR</button>
     </div>
-    <iframe id="frame" allowfullscreen></iframe>
+    <iframe id="frame"></iframe>
 </div>
 
 <script>
-// --- AUDIO E CONFIGURAÇÃO ---
-const barkSound = new Audio('https://www.myinstants.com/media/sounds/dog-bark.mp3');
-const _0xgh = (s) => atob(s);
-
-const firebaseConfig = {
-  apiKey: _0xgh("QUl6YVN5Q2hQUkpYQS1xTlpCVk02b29FY2pVYkI3OXhSVzFYTkFN"),
-  authDomain: _0xgh("b255eGNoYXQtOGFkNmYuZmlyZWJhc2VhcHAuY29t"),
-  projectId: _0xgh("b255eGNoYXQtOGFkNmY="),
-  storageBucket: _0xgh("b255eGNoYXQtOGFkNmYuZmlyZWJhc2VzdG9yYWdlLmFwcA=="),
-  messagingSenderId: _0xgh("ODk2NDM0NTU1Njk2"),
-  appId: _0xgh("MTo4OTY0MzQ1NTU2OTY6d2ViOjc2ZGE2YWVmOTYyZTM5MTZkODE2ZjU="),
-  measurementId: _0xgh("Ry1TRkpKSEM1UE04")
-};
-
-let app = firebase.initializeApp(firebaseConfig, "PugAdmin");
-const db = app.firestore();
-let isFirstLoad = true;
-
-// --- SISTEMA DE BADGE E NOTIFICAÇÃO ---
-async function updateBadge(count) {
-    if ('setAppBadge' in navigator) {
-        if (count > 0) {
-            navigator.setAppBadge(count).catch(e => console.log(e));
-        } else {
-            navigator.clearAppBadge().catch(e => console.log(e));
-        }
-    }
+/* ===== SERVICE WORKER (PWA) ===== */
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('./service-worker.js')
+        .then(() => console.log('✅ Service Worker registrado'))
+        .catch(err => console.error('❌ SW erro', err));
 }
 
-function notifyNewGame(title, author, img) {
-    if (Notification.permission === "granted") {
-        barkSound.play().catch(() => {}); // Latido!
-        
-        new Notification("🚨 NOVO JOGO!", {
-            body: `${title} por ${author}`,
-            icon: img || 'https://i.imgur.com/rM43tnX.jpeg',
-            vibrate: [200, 100, 200]
+/* ===== APP ===== */
+const barkSound = new Audio('https://www.myinstants.com/media/sounds/dog-bark.mp3');
+const _0xgh = s => atob(s);
+
+firebase.initializeApp({
+  apiKey:_0xgh("QUl6YVN5Q2hQUkpYQS1xTlpCVk02b29FY2pVYkI3OXhSVzFYTkFN"),
+  authDomain:_0xgh("b255eGNoYXQtOGFkNmYuZmlyZWJhc2VhcHAuY29t"),
+  projectId:_0xgh("b255eGNoYXQtOGFkNmY="),
+});
+
+const db = firebase.firestore();
+let isFirstLoad = true;
+
+function enableNotifications(){
+    Notification.requestPermission().then(p=>{
+        if(p==="granted"){
+            barkSound.play();
+            updateNotifyBtn();
+        }
+    });
+}
+
+function updateNotifyBtn(){
+    const b=document.getElementById('btn-notify');
+    b.style.background="var(--green)";
+    b.style.color="#000";
+    b.innerHTML='<i data-lucide="bell-ring"></i> NOTIFICAÇÕES ATIVAS';
+    lucide.createIcons();
+}
+
+function notifyNewGame(title,author,img){
+    if(Notification.permission==="granted"){
+        barkSound.play().catch(()=>{});
+        new Notification("🚨 NOVO JOGO!",{
+            body:`${title} por ${author}`,
+            icon:img||'https://i.imgur.com/rM43tnX.jpeg'
         });
     }
 }
 
-window.enableNotifications = () => {
-    Notification.requestPermission().then(permission => {
-        if (permission === "granted") {
-            updateNotifyBtn();
-            barkSound.play(); // Testa o som ao ativar
-        }
-    });
-};
-
-function updateNotifyBtn() {
-    const btn = document.getElementById('btn-notify');
-    if(btn && Notification.permission === "granted") {
-        btn.style.background = "var(--green)";
-        btn.style.color = "#000";
-        btn.innerHTML = `<i data-lucide="bell-ring"></i> NOTIFICAÇÕES ATIVAS`;
-        lucide.createIcons();
-    }
-}
-
-// --- RENDERIZAÇÃO E FILTRO ---
-db.collection("games").where("published", "==", false).onSnapshot(snap => {
-    // Atualiza a Badge com o número de jogos pendentes
-    updateBadge(snap.size);
-
-    if (!isFirstLoad) {
-        snap.docChanges().forEach(change => {
-            if (change.type === "added") {
-                const d = change.doc.data();
-                notifyNewGame(d.title, d.author, d.img);
+db.collection("games").where("published","==",false).onSnapshot(snap=>{
+    if(!isFirstLoad){
+        snap.docChanges().forEach(c=>{
+            if(c.type==="added"){
+                const d=c.doc.data();
+                notifyNewGame(d.title,d.author,d.img);
             }
         });
     }
 
-    const list = document.getElementById('list');
-    list.innerHTML = "";
-
-    if(snap.empty) {
-        list.innerHTML = `<div class="empty-state"><h3>Tudo limpo, chefe!</h3></div>`;
-        isFirstLoad = false;
+    const list=document.getElementById('list');
+    list.innerHTML="";
+    if(snap.empty){
+        list.innerHTML='<div class="empty-state">Tudo limpo 😎</div>';
+        isFirstLoad=false;
         return;
     }
 
-    snap.forEach(doc => {
-        const g = doc.data();
-        const el = document.createElement('div');
-        el.className = 'card';
-        el.innerHTML = `
+    snap.forEach(doc=>{
+        const g=doc.data();
+        list.innerHTML+=`
+        <div class="card">
             <div class="card-media"><img src="${g.img}"></div>
             <div class="card-body">
                 <div class="card-title">${g.title}</div>
-                <div class="card-meta"><i data-lucide="user"></i> ${g.author}</div>
-                <button class="btn btn-preview" onclick="openPreview('${g.url}', '${g.title}')">TESTAR JOGO</button>
+                <div class="card-meta">${g.author}</div>
+                <button class="btn btn-preview" onclick="openPreview('${g.url}','${g.title}')">TESTAR</button>
             </div>
             <div class="admin-actions">
                 <button class="btn btn-reject" onclick="reject('${doc.id}')">LIXO</button>
                 <button class="btn btn-approve" onclick="approve('${doc.id}')">APROVAR</button>
             </div>
-        `;
-        list.appendChild(el);
+        </div>`;
     });
     lucide.createIcons();
-    isFirstLoad = false;
-}, err => console.error(err));
+    isFirstLoad=false;
+});
 
-// --- AÇÕES ---
-async function approve(id) {
-    if(confirm("Publicar jogo?")) await db.collection("games").doc(id).update({published: true});
+function approve(id){db.collection("games").doc(id).update({published:true})}
+function reject(id){db.collection("games").doc(id).delete()}
+function openPreview(u,t){
+    player.style.display="flex";
+    frame.src=u;
+    gameTitle.innerText=t;
+}
+function closeGame(){
+    player.style.display="none";
+    frame.src="";
 }
 
-async function reject(id) {
-    if(confirm("Deletar jogo?")) await db.collection("games").doc(id).delete();
-}
-
-window.openPreview = (url, title) => {
-    document.getElementById('player').style.display = 'flex';
-    document.getElementById('frame').src = url;
-    document.getElementById('gameTitle').innerText = title;
-};
-
-window.closeGame = () => {
-    document.getElementById('player').style.display = 'none';
-    document.getElementById('frame').src = '';
-};
-
-// Auto-check permissão
-if (Notification.permission === "granted") updateNotifyBtn();
+if(Notification.permission==="granted") updateNotifyBtn();
 </script>
+
 </body>
 </html>
