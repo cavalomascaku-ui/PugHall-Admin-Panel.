@@ -1,21 +1,17 @@
-function enviarWebhook(jogo) {
-  fetch("SUA_URL_DO_WEBHOOK_AQUI", {
+window.enviarWebhook = function (jogo) {
+  fetch("https://discord.com/api/webhooks/1461101701267197984/X44Qhjy9Fq8-78rKvq9m5WCznEm3KIL3RWlB2n9s8BYwfyNb3yqO1d06qTVY9jLV0Twv", {
     method: "POST",
     headers: {
       "Content-Type": "application/json"
     },
     body: JSON.stringify({
-      content: `🕹️ Novo jogo enviado!\n🎮 Jogo: **${jogo}**`
+      content: "🧪 Teste webhook: " + jogo
     })
   })
   .then(res => {
     console.log("Status:", res.status);
-    if (!res.ok) {
-      throw new Error("Discord recusou o webhook");
-    }
-    console.log("Webhook aceito pelo Discord");
+    return res.text();
   })
-  .catch(err => console.error("Erro real:", err));
-}
-
-window.enviarWebhook = enviarWebhook;
+  .then(txt => console.log("Resposta:", txt))
+  .catch(err => console.error("Erro:", err));
+};
